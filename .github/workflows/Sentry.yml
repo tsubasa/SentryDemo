@@ -109,10 +109,8 @@ jobs:
         run: |
           echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
           echo "commit_date=$(git show -s --date=format:"%y%m%d" --format=%cd)" >> $GITHUB_OUTPUT
-      - name: Check outputs
-        run: |
-          echo ${{ steps.vars.outputs.sha_short }}
-          echo ${{ steps.vars.outputs.commit_date }}
+        env:
+          TZ: "Asia/Tokyo"
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
@@ -124,4 +122,4 @@ jobs:
           sourcemaps: dist
           set_commits: skip
           version_prefix: v
-          version: ${{ steps.vars.outputs.sha_short }}_${{ steps.vars.outputs.commit_date }}
+          version: ${{ steps.vars.outputs.commit_date }}_${{ steps.vars.outputs.sha_short }}
