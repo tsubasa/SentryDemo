@@ -6,10 +6,6 @@ jobs:
   app1:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: app1
-
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -21,15 +17,14 @@ jobs:
         env:
           cache-name: cache-node-modules-app1
         with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
+          path: 'app1/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('app1/yarn.lock') }}
       - run: echo '${{ toJSON(steps.node_modules_cache_id_app1.outputs) }}'
       - if: ${{ steps.node_modules_cache_id_app1.outputs.cache-hit != 'true' }}
         run: yarn install
+        working-directory: app1
       - run: yarn build
-      - name: PWD
-        run: pwd
-      - run: cd ../..
+        working-directory: app1
       - name: Display structure of downloaded files
         run: ls
       - name: PWD
