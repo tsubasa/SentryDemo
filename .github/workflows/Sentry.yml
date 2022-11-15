@@ -129,3 +129,4 @@ jobs:
           environment: production
           url_prefix: '~/dist'
           sourcemaps: './dist'
+          ignore_missing: true
