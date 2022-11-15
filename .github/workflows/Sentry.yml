@@ -104,7 +104,7 @@ jobs:
 
       - uses: actions/download-artifact@v3
         with:
-          path: path/to/artifacts
+          path: dist/dist
       - name: Display structure of downloaded files
         run: ls -R
 
