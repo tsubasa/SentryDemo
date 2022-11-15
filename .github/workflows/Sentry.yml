@@ -25,10 +25,6 @@ jobs:
         working-directory: app1
       - run: yarn build
         working-directory: app1
-      - name: Display structure of downloaded files
-        run: ls
-      - name: PWD
-        run: pwd
       - uses: actions/upload-artifact@v3
         with:
           name: dist
@@ -37,10 +33,6 @@ jobs:
   app2:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: app2
-
     needs: app1
 
     steps:
@@ -48,88 +40,78 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: dist
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install -g yarn
+      - uses: actions/cache@v3
+        id: node_modules_cache_id_app2
+        env:
+          cache-name: cache-node-modules-app2
+        with:
+          path: 'app2/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('app2/yarn.lock') }}
+      - run: echo '${{ toJSON(steps.node_modules_cache_id_app2.outputs) }}'
+      - if: ${{ steps.node_modules_cache_id_app2.outputs.cache-hit != 'true' }}
+        run: yarn install
+        working-directory: app2
+      - run: yarn build
+        working-directory: app2
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
 
-      - name: Display structure of downloaded files
-        run: ls -R
+  app3:
+    runs-on: ubuntu-latest
 
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16
-      # - run: npm install -g yarn
-      # - uses: actions/cache@v3
-      #   id: node_modules_cache_id_app2
-      #   env:
-      #     cache-name: cache-node-modules-app2
-      #   with:
-      #     path: '**/node_modules'
-      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-      # - run: echo '${{ toJSON(steps.node_modules_cache_id_app2.outputs) }}'
-      # - if: ${{ steps.node_modules_cache_id_app2.outputs.cache-hit != 'true' }}
-      #   run: yarn install
-      # - run: yarn build
-      # - uses: actions/upload-artifact@v3
-      #   with:
-      #     name: dist
-      #     path: dist
-      #   working-directory: .
+    needs: app2
 
-  # app3:
-  #   runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install -g yarn
+      - uses: actions/cache@v3
+        id: node_modules_cache_id_app3
+        env:
+          cache-name: cache-node-modules-app3
+        with:
+          path: 'app3/node_modules'
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('app3/yarn.lock') }}
+      - run: echo '${{ toJSON(steps.node_modules_cache_id_app3.outputs) }}'
+      - if: ${{ steps.node_modules_cache_id_app3.outputs.cache-hit != 'true' }}
+        run: yarn install
+        working-directory: app3
+      - run: yarn build
+        working-directory: app3
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist
 
-  #   defaults:
-  #     run:
-  #       working-directory: app3
+  sentry:
+    runs-on: ubuntu-latest
 
-  #   needs: app2
+    needs: app3
 
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/download-artifact@v3
-  #       with:
-  #         name: dist
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #     - run: npm install -g yarn
-  #     - uses: actions/cache@v3
-  #       id: node_modules_cache_id_app3
-  #       env:
-  #         cache-name: cache-node-modules-app3
-  #       with:
-  #         path: '**/node_modules'
-  #         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-  #     - run: echo '${{ toJSON(steps.node_modules_cache_id_app3.outputs) }}'
-  #     - if: ${{ steps.node_modules_cache_id_app3.outputs.cache-hit != 'true' }}
-  #       run: yarn install
-  #     - run: yarn build
-  #     - uses: actions/upload-artifact@v3
-  #       with:
-  #         name: dist
-  #         path: dist
-  #       working-directory: .
-
-  # sentry:
-  #   runs-on: ubuntu-latest
-
-  #   defaults:
-  #     run:
-  #       working-directory: .
-
-  #   needs: app3
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/download-artifact@v3
-  #       with:
-  #         name: dist
-  #     - name: Create Sentry release
-  #       uses: getsentry/action-release@v1
-  #       env:
-  #         SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-  #         SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-  #         SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-  #         # SENTRY_URL: https://sentry.io/
-  #       with:
-  #         environment: production
-  #         sourcemaps: dist
-  #         set_commits: skip
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          # SENTRY_URL: https://sentry.io/
+        with:
+          environment: production
+          sourcemaps: dist
+          set_commits: skip
