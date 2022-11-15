@@ -101,11 +101,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/download-artifact@v3
         with:
-          name: dist
-      - name: PWD LS
-        run: pwd && ls
+          path: path/to/artifacts
+      - name: Display structure of downloaded files
+        run: ls -R
+
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
