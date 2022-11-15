@@ -114,6 +114,7 @@ jobs:
         with:
           environment: production
           sourcemaps: dist
+          set_commits: skip
 
   # sentry:
   #   runs-on: ubuntu-latest
