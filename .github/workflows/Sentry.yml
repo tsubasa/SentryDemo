@@ -33,7 +33,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: ./dist
+          path: './../dist'
 
   app2:
     runs-on: ubuntu-latest
@@ -67,7 +67,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: ./dist
+          path: './../dist'
 
   app3:
     runs-on: ubuntu-latest
@@ -103,7 +103,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: ./dist
+          path: './../dist'
       - run: yarn build
 
       - name: Create Sentry release
