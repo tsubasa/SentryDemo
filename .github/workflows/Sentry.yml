@@ -30,7 +30,7 @@ jobs:
       - if: ${{ steps.node_modules_cache_id_app1.outputs.cache-hit != 'true' }}
         run: yarn install
       - run: yarn build
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: ./dist
@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: dist
       - uses: actions/setup-node@v3
@@ -64,7 +64,7 @@ jobs:
       - if: ${{ steps.node_modules_cache_id_app2.outputs.cache-hit != 'true' }}
         run: yarn install
       - run: yarn build
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: ./dist
@@ -80,9 +80,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: dist
+      - name: Display structure of downloaded files
+        run: ls -R
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -98,7 +100,7 @@ jobs:
       - if: ${{ steps.node_modules_cache_id_app3.outputs.cache-hit != 'true' }}
         run: yarn install
       - run: yarn build
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: ./dist
@@ -126,9 +128,7 @@ jobs:
   #   needs: app3
 
   #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         fetch-depth: 0
+  #     - uses: actions/checkout@v3
   #     - uses: actions/download-artifact@v2
   #       with:
   #         name: dist
@@ -142,3 +142,4 @@ jobs:
   #       with:
   #         environment: production
   #         sourcemaps: dist
+  #         set_commits: skip
