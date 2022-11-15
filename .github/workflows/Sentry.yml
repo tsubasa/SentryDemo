@@ -130,5 +130,5 @@ jobs:
         with:
           environment: production
           url_prefix: '~/dist'
-          sourcemaps: './dist'
-          ignore_missing: true
+          sourcemaps: dist
+          set_commits: skip
