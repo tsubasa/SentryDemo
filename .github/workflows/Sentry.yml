@@ -105,4 +105,4 @@ jobs:
         with:
           environment: production
           url_prefix: '~/dist'
-          sourcemaps: './dist'
+          sourcemaps: dist/app1/app1.min.js dist/app1/app1.min.js.map
