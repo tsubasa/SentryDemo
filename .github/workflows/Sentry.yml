@@ -22,7 +22,7 @@ jobs:
       - uses: actions/cache@v3
         id: node_modules_cache_id_app1
         env:
-          cache-name: cache-node-modules
+          cache-name: cache-node-modules-app1
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/cache@v3
         id: node_modules_cache_id_app2
         env:
-          cache-name: cache-node-modules
+          cache-name: cache-node-modules-app2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
@@ -90,7 +90,7 @@ jobs:
       - uses: actions/cache@v3
         id: node_modules_cache_id_app3
         env:
-          cache-name: cache-node-modules
+          cache-name: cache-node-modules-app3
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
