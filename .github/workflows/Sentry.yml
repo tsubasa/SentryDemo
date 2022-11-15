@@ -30,11 +30,13 @@ jobs:
       - if: ${{ steps.node_modules_cache_id_app1.outputs.cache-hit != 'true' }}
         run: yarn install
       - run: yarn build
+      - run: cd /
+      - name: Display structure of downloaded files
+        run: ls -R
       - uses: actions/upload-artifact@v3
         with:
           name: dist
           path: dist
-        working-directory: .
 
   app2:
     runs-on: ubuntu-latest
