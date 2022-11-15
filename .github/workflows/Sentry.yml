@@ -20,14 +20,14 @@ jobs:
           node-version: 16
       - run: npm install -g yarn
       - uses: actions/cache@v3
-        id: node_modules_cache_id
+        id: node_modules_cache_id_app1
         env:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-      - run: echo '${{ toJSON(steps.node_modules_cache_id.outputs) }}'
-      - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+      - run: echo '${{ toJSON(steps.node_modules_cache_id_app1.outputs) }}'
+      - if: ${{ steps.node_modules_cache_id_app1.outputs.cache-hit != 'true' }}
         run: yarn install
       - run: yarn build
       - uses: actions/upload-artifact@v2
@@ -54,14 +54,14 @@ jobs:
           node-version: 16
       - run: npm install -g yarn
       - uses: actions/cache@v3
-        id: node_modules_cache_id
+        id: node_modules_cache_id_app2
         env:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-      - run: echo '${{ toJSON(steps.node_modules_cache_id.outputs) }}'
-      - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+      - run: echo '${{ toJSON(steps.node_modules_cache_id_app2.outputs) }}'
+      - if: ${{ steps.node_modules_cache_id_app2.outputs.cache-hit != 'true' }}
         run: yarn install
       - run: yarn build
       - uses: actions/upload-artifact@v2
@@ -88,14 +88,14 @@ jobs:
           node-version: 16
       - run: npm install -g yarn
       - uses: actions/cache@v3
-        id: node_modules_cache_id
+        id: node_modules_cache_id_app3
         env:
           cache-name: cache-node-modules
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn.lock') }}
-      - run: echo '${{ toJSON(steps.node_modules_cache_id.outputs) }}'
-      - if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+      - run: echo '${{ toJSON(steps.node_modules_cache_id_app3.outputs) }}'
+      - if: ${{ steps.node_modules_cache_id_app3.outputs.cache-hit != 'true' }}
         run: yarn install
       - run: yarn build
       - uses: actions/upload-artifact@v2
