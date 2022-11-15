@@ -27,7 +27,9 @@ jobs:
       - if: ${{ steps.node_modules_cache_id_app1.outputs.cache-hit != 'true' }}
         run: yarn install
       - run: yarn build
-      - run: cd ..
+      - name: PWD
+        run: pwd
+      - run: cd ../..
       - name: Display structure of downloaded files
         run: ls
       - name: PWD
