@@ -119,6 +119,12 @@ jobs:
       - name: DEBUG
         run: pwd && ls dist -R
 
+      - name: MOVE
+        run: mv dist/dist ..
+
+      - name: DEBUG
+        run: pwd && ls dist -R
+
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
