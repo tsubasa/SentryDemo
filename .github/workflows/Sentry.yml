@@ -113,7 +113,7 @@ jobs:
           TZ: "Asia/Tokyo"
 
       - name: DEBUG
-        run: pwd && ls
+        run: pwd && ls assets
 
       - name: Create Sentry release
         uses: getsentry/action-release@v1
