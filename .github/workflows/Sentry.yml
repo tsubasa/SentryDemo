@@ -25,10 +25,6 @@ jobs:
         working-directory: app1
       - run: yarn build
         working-directory: app1
-
-      - name: DEBUG
-        run: pwd && ls dist -R
-
       - uses: actions/upload-artifact@v3
         with:
           name: dist
@@ -118,10 +114,6 @@ jobs:
           echo "commit_date=$(git show -s --date=format:"%y%m%d" --format=%cd)" >> $GITHUB_OUTPUT
         env:
           TZ: "Asia/Tokyo"
-
-      - name: DEBUG
-        run: pwd && ls dist -R
-
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
