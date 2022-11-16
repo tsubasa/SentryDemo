@@ -121,5 +121,6 @@ jobs:
           environment: production
           sourcemaps: dist
           set_commits: skip
+          url_prefix: html/assets
           version_prefix: v
           version: ${{ steps.vars.outputs.commit_date }}_${{ steps.vars.outputs.sha_short }}
