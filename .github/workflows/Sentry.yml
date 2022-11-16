@@ -25,6 +25,10 @@ jobs:
         working-directory: app1
       - run: yarn build
         working-directory: app1
+
+      - name: DEBUG
+        run: pwd && ls dist -R
+
       - uses: actions/upload-artifact@v3
         with:
           name: dist
