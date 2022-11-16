@@ -123,7 +123,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          sourcemaps: assets
+          sourcemaps: '~/assets/dist'
           set_commits: skip
           version_prefix: v
           version: ${{ steps.vars.outputs.commit_date }}_${{ steps.vars.outputs.sha_short }}
