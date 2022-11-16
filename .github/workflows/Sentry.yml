@@ -103,7 +103,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
-          path: dist
+          path: assets
       - name: Set outputs
         id: vars
         run: |
@@ -111,6 +111,10 @@ jobs:
           echo "commit_date=$(git show -s --date=format:"%y%m%d" --format=%cd)" >> $GITHUB_OUTPUT
         env:
           TZ: "Asia/Tokyo"
+
+      - name: DEBUG
+        run: pwd && ls
+
       - name: Create Sentry release
         uses: getsentry/action-release@v1
         env:
@@ -119,7 +123,7 @@ jobs:
           SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
         with:
           environment: production
-          sourcemaps: dist/*
+          sourcemaps: assets
           set_commits: skip
           version_prefix: v
           version: ${{ steps.vars.outputs.commit_date }}_${{ steps.vars.outputs.sha_short }}
