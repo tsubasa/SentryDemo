@@ -12,7 +12,7 @@ module.exports = {
   target: 'web',
   entry: './src/index.ts',
   output: {
-    path: path.resolve(__dirname, '../dist/app1'),
+    path: path.resolve(__dirname, '../dist/assets/app1'),
     filename: 'app1.min.js',
   },
   module: {
