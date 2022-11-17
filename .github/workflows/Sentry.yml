@@ -27,20 +27,14 @@ jobs:
         working-directory: app1
       - uses: actions/upload-artifact@v3
         with:
-          name: dist
+          name: dist_app1
           path: dist/assets
 
   app2:
     runs-on: ubuntu-latest
 
-    needs: app1
-
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: dist/assets
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -60,20 +54,14 @@ jobs:
         working-directory: app2
       - uses: actions/upload-artifact@v3
         with:
-          name: dist
+          name: dist_app2
           path: dist/assets
 
   app3:
     runs-on: ubuntu-latest
 
-    needs: app2
-
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist
-          path: dist/assets
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -93,20 +81,32 @@ jobs:
         working-directory: app3
       - uses: actions/upload-artifact@v3
         with:
-          name: dist
+          name: dist_app3
           path: dist/assets
 
   sentry:
     runs-on: ubuntu-latest
 
-    needs: app3
+    needs: [app1, app2, app3]
 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
-          name: dist
+          name: dist_app1
           path: dist/assets
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist_app2
+          path: dist/assets
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist_app3
+          path: dist/assets
+
+      - name: DEBUG SHOW DIST FILES
+        run: pwd && ls dist -R
+
       - name: Set outputs
         id: vars
         run: |
